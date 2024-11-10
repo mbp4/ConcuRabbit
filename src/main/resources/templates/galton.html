@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Galton</title>
+</head>
+<body>
+<h1>Construccion de tableros Galton</h1>
+
+<ul id="listaMensajes"></ul>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (){
+       const eventSource = new EventSource("/galton");
+       const lista = document.getElementById("listaMensajes");
+       eventSource.onmessage = function (event){
+          const nuevoMensaje = document.createElement("li");
+          nuevoMensaje.textContent = event.data;
+          lista.appendChild(nuevoMensaje);
+       };
+    });
+</script>
+
+</body>
+</html>
