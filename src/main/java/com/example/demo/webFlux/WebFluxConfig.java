@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.webFlux;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.EnableWebFlux;
