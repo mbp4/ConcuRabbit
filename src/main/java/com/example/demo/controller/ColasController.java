@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,4 +50,5 @@ public class ColasController {
                 .cast(String.class)
                 .delayElements(Duration.ofMillis((long) (Math.random() * 200) + 50));
     }
+
 }
