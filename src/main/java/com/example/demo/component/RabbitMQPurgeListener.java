@@ -8,10 +8,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-/*
-@Component
-public class RabbitMQPurgeListener implements ApplicationListener<ApplicationReadyEvent> {
 
+//@Component
+public class RabbitMQPurgeListener {  //implements ApplicationListener<ApplicationReadyEvent> {
+/*
     @Autowired
     private RabbitAdmin rabbitAdmin;
 
@@ -29,6 +29,7 @@ public class RabbitMQPurgeListener implements ApplicationListener<ApplicationRea
         // Purga la cola al cerrar la aplicación
         rabbitAdmin.purgeQueue(myQueue.getName(), true);
     }
+ */
 }
 
- */
+
