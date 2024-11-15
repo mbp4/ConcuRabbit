@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.elements.Gauss;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,4 +50,28 @@ public class ColasController {
                 .cast(String.class)
                 .delayElements(Duration.ofMillis((long) (Math.random() * 200) + 50));
     }
+
+    @GetMapping(value = "/galton/distribucion", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> simularDistribucion() {
+        int niveles = 10;
+        Gauss gauss = new Gauss(0, niveles, niveles / 4.0);
+        int[] distribucion = new int[niveles + 1];
+
+        return Flux.interval(Duration.ofMillis(300))
+                .take(100)  // Simular 100 bolas
+                .map(i -> {
+                    int nivel = gauss.gaussianRandom();
+                    distribucion[nivel]++;
+                    return generarMensajeDistribucion(distribucion);
+                });
+    }
+
+    private String generarMensajeDistribucion(int[] distribucion) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < distribucion.length; i++) {
+            builder.append("Nivel ").append(i).append(": ").append(distribucion[i]).append(" bolas\n");
+        }
+        return builder.toString();
+    }
+
 }

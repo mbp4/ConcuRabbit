@@ -1,26 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>Galton</title>
+    <title>Distribución Gaussiana</title>
+    <style>
+        .nivel {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .barra {
+            background-color: lightblue;
+            height: 20px;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-<h1>Construccion de tableros Galton</h1>
-
-<ul id="listaMensajes"></ul>
+<h1>Simulación de Campana de Gauss</h1>
+<div id="distribucion"></div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function (){
-       const eventSource = new EventSource("/galton");
-       const lista = document.getElementById("listaMensajes");
-       eventSource.onmessage = function (event){
-          const nuevoMensaje = document.createElement("li");
-          nuevoMensaje.textContent = event.data;
-          lista.appendChild(nuevoMensaje);
-       };
+    document.addEventListener("DOMContentLoaded", function () {
+        const eventSource = new EventSource("/galton/distribucion");
+        const contenedor = document.getElementById("distribucion");
+
+        eventSource.onmessage = function (event) {
+            const niveles = event.data.split('\n').filter(line => line.trim() !== '');
+            contenedor.innerHTML = '';
+
+            niveles.forEach(nivel => {
+                const [nombre, cantidad] = nivel.split(': ');
+                const divNivel = document.createElement('div');
+                divNivel.className = 'nivel';
+
+                const label = document.createElement('span');
+                label.textContent = nombre;
+
+                const barra = document.createElement('div');
+                barra.className = 'barra';
+                barra.style.width = `${cantidad * 10}px`;
+
+                divNivel.appendChild(label);
+                divNivel.appendChild(barra);
+                contenedor.appendChild(divNivel);
+            });
+        };
     });
 </script>
-
 </body>
 </html>

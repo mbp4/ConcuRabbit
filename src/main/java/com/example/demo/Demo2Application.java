@@ -23,13 +23,13 @@ public class Demo2Application {
         try {
             if (os.contains("win")) {
                 // Windows
-                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler http://localhost:8080/galton");
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler http://localhost:8080/galton/distribucion");
             } else if (os.contains("mac")) {
                 // Mac
-                Runtime.getRuntime().exec("open http://localhost:8080/galton");
+                Runtime.getRuntime().exec("open http://localhost:8080/galton/distribucion");
             } else if (os.contains("nix") || os.contains("nux")) {
                 // Linux
-                Runtime.getRuntime().exec("xdg-open http://localhost:8080/galton");
+                Runtime.getRuntime().exec("xdg-open http://localhost:8080/galton/distribucion");
             } else {
                 System.err.println("Sistema operativo no soportado para abrir el navegador.");
             }
