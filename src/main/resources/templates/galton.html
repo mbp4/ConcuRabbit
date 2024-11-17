@@ -1,52 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Distribución Gaussiana</title>
-    <style>
-        .nivel {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .barra {
-            background-color: lightblue;
-            height: 20px;
-            margin-left: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Distribución Gaussiana</title>
+  <style>
+    .nivel {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .barra {
+      background-color: lightblue;
+      height: 20px;
+      margin-left: 10px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<h1>Simulación de Campana de Gauss</h1>
-<div id="distribucion"></div>
-
+<canvas id="graficoDistribucion" width="400" height="200"></canvas>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const eventSource = new EventSource("/galton/distribucion");
-        const contenedor = document.getElementById("distribucion");
+  const ctx = document.getElementById('graficoDistribucion').getContext('2d');
 
-        eventSource.onmessage = function (event) {
-            const niveles = event.data.split('\n').filter(line => line.trim() !== '');
-            contenedor.innerHTML = '';
+  // Crear el gráfico con valores iniciales vacíos
+  let chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Array.from({ length: 11 }, (_, i) => `Nivel ${i}`), // Niveles de la distribución
+      datasets: [{
+        label: 'Distribución',
+        data: Array(11).fill(0), // Inicializamos con 0
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
 
-            niveles.forEach(nivel => {
-                const [nombre, cantidad] = nivel.split(': ');
-                const divNivel = document.createElement('div');
-                divNivel.className = 'nivel';
+  // Usamos EventSource para recibir los datos en tiempo real
+  const eventSource = new EventSource('/galton/distribucion');
 
-                const label = document.createElement('span');
-                label.textContent = nombre;
+  eventSource.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    const distribucion = data.distribucion;
 
-                const barra = document.createElement('div');
-                barra.className = 'barra';
-                barra.style.width = `${cantidad * 10}px`;
-
-                divNivel.appendChild(label);
-                divNivel.appendChild(barra);
-                contenedor.appendChild(divNivel);
-            });
-        };
-    });
+    // Actualizamos los datos de las barras sin redibujar todo el gráfico
+    for (let i = 0; i < distribucion.length; i++) {
+      chart.data.datasets[0].data[i] = distribucion[i]; // Actualizamos solo los valores
+    }
+    chart.update(); // Actualizamos el gráfico
+  };
 </script>
 </body>
 </html>

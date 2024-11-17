@@ -8,6 +8,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
+import javax.swing.*;
 import java.io.IOException;
 
 @SpringBootApplication
@@ -15,6 +16,7 @@ public class Demo2Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Demo2Application.class, args);
+
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -41,8 +43,8 @@ public class Demo2Application {
     @Bean
     public CommandLineRunner runner(RabbitTemplate rabbitTemplate){
         return args -> {
-            new Thread(() -> fabricarBolas(rabbitTemplate, "colaBolas", 100)).start();
-            new Thread(() -> fabricarNiveles(rabbitTemplate, "colaNiveles", 80)).start();
+            new Thread(() -> fabricarBolas(rabbitTemplate, "colaBolas", 50)).start();
+            new Thread(() -> fabricarNiveles(rabbitTemplate, "colaNiveles", 10)).start();
         };
     }
 
