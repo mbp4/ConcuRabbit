@@ -57,5 +57,5 @@ Este archivo contiene la configuración de la aplicación, incluyendo la configu
 Para ejecutar la aplicación, es necesario tener instalado RabbitMQ en el equipo. Se puede descargar desde la página oficial de RabbitMQ: https://www.rabbitmq.com/docs/download
 También hace falta tener instalado Erlang, que se puede descargar desde la página oficial de Erlang: https://www.erlang.org/
 Por último es necesario abrir el servicio de RabbitMQ en el equipo desde la powershell con el comando `rabbitmq-server start` o desde el bash en IOS o Linux con el comando `sudo rabbitmq-server start`.
-Ya puedes ejecutar la aplicación.
+Ya puedes ejecutar la aplicación, la cual esta programada de tal manera que hasta que no se reciban todos los mensajes no se mostrará la distribución.
 
