@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Distribución Gaussiana</title>
@@ -44,18 +44,16 @@
     }
   });
 
-  // Usamos EventSource para recibir los datos en tiempo real
   const eventSource = new EventSource('/galton/distribucion');
 
   eventSource.onmessage = function(event) {
     const data = JSON.parse(event.data);
     const distribucion = data.distribucion;
 
-    // Actualizamos los datos de las barras sin redibujar todo el gráfico
     for (let i = 0; i < distribucion.length; i++) {
-      chart.data.datasets[0].data[i] = distribucion[i]; // Actualizamos solo los valores
+      chart.data.datasets[0].data[i] = distribucion[i];
     }
-    chart.update(); // Actualizamos el gráfico
+    chart.update();
   };
 </script>
 </body>
