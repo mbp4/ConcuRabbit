@@ -76,7 +76,7 @@ public class ColasController {
         int[] distribucion = new int[niveles + 1];
 
         return Flux.interval(Duration.ofMillis(300))
-                .take(100)  // Simular 100 bolas
+                .take(50)
                 .map(i -> {
                     int nivel = gauss.gaussianRandom();
                     distribucion[nivel]++;
